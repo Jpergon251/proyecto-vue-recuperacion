@@ -14,6 +14,9 @@ const routes = [
         name: 'login',
         component: () => import('@/modules/club/pages/LoginPage.vue')
     },
+    {
+      path: '/juegos/:game', component: () => import('@/modules/club/pages/GamePage.vue')
+    },
     { path: '/404', component: () => import('@/modules/shared/NoPageFound.vue') },
     {   
         path: '/:pathMatch(.*)*',component: () => import('@/modules/shared/NoPageFound.vue'),
