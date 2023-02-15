@@ -7,8 +7,6 @@
       <div class="navbar-menu">
         <div class="navbar-end">
           <router-link to="/" class="navbar-item">Inicio</router-link>
-          <router-link to="/about" class="navbar-item">Acerca de</router-link>
-          <router-link to="/contact" class="navbar-item">Contacto</router-link>
           <router-link to="/login" class="navbar-item">Iniciar sesión</router-link>
         </div>
       </div>
