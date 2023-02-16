@@ -34,6 +34,7 @@
   
   <style>
   .login-page {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;

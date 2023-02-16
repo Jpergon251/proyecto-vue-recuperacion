@@ -27,6 +27,7 @@ export default {
         this.juego = response.data;
       })
       .catch(error => {
+        this.$router.replace('/404')
         console.log(error);
       });
   },
@@ -38,6 +39,7 @@ img{
   width: 1400px;
 }
 .container {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   width: 80%;
   margin: 0 auto;
 }

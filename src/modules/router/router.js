@@ -25,7 +25,12 @@ const routes = [
         return {game}
       }
     },
-    { path: '/404', component: () => import('@/modules/shared/NoPageFound.vue') },
+    {
+      path: '/partidas', component: ()=> import('@/modules/club/pages/PartidasPage.vue')
+    },
+    { 
+      path: '/404', component: () => import('@/modules/shared/NoPageFound.vue') 
+    },
     {   
         path: '/:pathMatch(.*)*',component: () => import('@/modules/shared/NoPageFound.vue'),
         redirect: '/404' 

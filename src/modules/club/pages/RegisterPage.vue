@@ -52,6 +52,7 @@
   <style>
   /* ... estilos específicos del componente ... */
   .register-page {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
@@ -80,8 +81,7 @@
     margin-bottom: 0.5rem;
   }
   
-  input[type="email"],
-  input[type="password"] {
+  input {
     font-size: 1.2rem;
     padding: 0.5rem;
     border: 1px solid #ddd;

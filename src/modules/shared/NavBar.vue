@@ -1,12 +1,13 @@
 <template>
     <nav class="navbar">
       <div class="navbar-brand">
-          <h1>Navbar</h1>
+          <img class="logo" src="https://i.imgur.com/FY7HK2d.png" alt="Logo">
       </div>
   
       <div class="navbar-menu">
         <div class="navbar-end">
           <router-link to="/" class="navbar-item">Inicio</router-link>
+          <router-link to="/partidas" class="navbar-item">Partidas</router-link>
           <router-link to="/login" class="navbar-item">Iniciar sesión</router-link>
         </div>
       </div>
@@ -20,34 +21,36 @@
   
   <style>
   .navbar {
+    margin-bottom: 30px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background-color: #2c3e50;
-    color: #fff;
-    margin-bottom: 20px;
-  }
-  
-  .navbar-brand h1 {
-    font-size: 1.5rem;
     font-weight: bold;
-    margin: 10px;
-    padding: 20px;
-  }
-  
-  .navbar-item {
-    font-weight: bold;
-    font-size: 1.2rem;
-    padding: 1rem;
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  .navbar-item:hover {
-    background-color: #34495e;
-    cursor: pointer;
+    background: linear-gradient(135deg, #A31A1F, #71161B, #4A0F28, #320A40, #1D064C);
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    flex-direction: column;
   }
 
-  .router-link-active{
-    text-decoration: underline;
+.navbar-item {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.navbar-item:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.logo{
+  width: 100%;
+  margin: 20px 0;
+}
+.router-link-active{
+  text-decoration: underline;
 }
   </style>
   
