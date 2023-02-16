@@ -4,9 +4,6 @@ import {createRouter,createWebHashHistory} from 'vue-router'
 const routes = [
     // otras rutas
     {
-      path: '/', component: () => import('@/modules/club/pages/InicioPage.vue')
-    },
-    {
         path: '/register',
         name: 'register',
         component: () => import('@/modules/club/pages/RegisterPage.vue')
@@ -26,10 +23,10 @@ const routes = [
       }
     },
     {
-      path: '/partidas', component: ()=> import('@/modules/club/pages/PartidasPage.vue')
+      path: '/', component: ()=> import('@/modules/club/pages/PartidasPage.vue')
     },
     {
-      path: '/partidas/:idPartida', component: ()=> import('@/modules/club/pages/OnePartidaPage.vue'),
+      path: '/:idPartida', component: ()=> import('@/modules/club/pages/OnePartidaPage.vue'),
       props: (route) =>{
         const idPartida = String(route.params.idPartida)
         return {idPartida}

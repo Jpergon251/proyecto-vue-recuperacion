@@ -101,8 +101,8 @@
         
         
     },
-    mounted() {
-      axios.get('http://localhost:3001/v1/api/partidas')
+    async mounted() {
+      await axios.get('http://localhost:3001/v1/api/partidas')
         .then(response => {
           this.partidas = Object.values(response.data);
         })
@@ -147,10 +147,10 @@ th {
 }
 .partida{
   color: #fff;
-  background-color: #3d2944;
+  background-color: #2a0b36;
 }
 .partida:hover {
-  background-color: #564b68;
+  background-color: #501568;
 }
 
 select {
@@ -188,7 +188,7 @@ a>p:hover{
   font-weight: bold;
   border-radius: 5px;
   padding: 10px 50px;
-  background-color: #3d2944;
+  background-color: #2a0b36;
 }
 
 

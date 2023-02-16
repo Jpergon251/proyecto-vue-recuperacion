@@ -16,7 +16,7 @@
         </div>
         <div class="partida-duracion">
           <h3>Duración</h3>
-          <p>{{ formatearDuracion(this.tiempoTranscurrido) }}</p>
+          <p>{{ formatearDuracion(partida.duracion) }}</p>
         </div>
         <div class="partida-estado">
           <h3>Estado</h3>
@@ -68,17 +68,10 @@
           console.error(error)
         }
       },
-      actualizarTiempoTranscurrido() {
-        this.tiempoTranscurrido++;
-      }
+     
     },
     mounted() {
     this.cargarPartida()
-      if (!this.partida.finalizada) {
-        setInterval(() => {
-          this.tiempoTranscurrido++
-        }, 1000)
-      }
     },
   };
   </script>
@@ -87,7 +80,7 @@
   max-width: 800px;
   margin: auto;
   padding: 20px;
-  background-color: #3d2944;
+  background-color: #2a0b36;
   color: #fff;
   border-radius: 10px;
 }
@@ -160,14 +153,9 @@
   margin: 0;
   font-size: 0.9rem;
 }
-.partida-jugadores li:nth-child(-n+3) {
-  background-color:  rgb(255, 68, 68);
-  border-radius: 5px;
-  padding: 5px;
-}
 
-.partida-jugadores li:nth-child(n+4):nth-child(-n+6) {
-  background-color:  rgb(50, 94, 161);
+.partida-jugadores li{
+  background-color:  #325ea1;
   border-radius: 5px;
   padding: 5px;
 }

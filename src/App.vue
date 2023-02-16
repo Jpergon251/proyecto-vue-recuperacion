@@ -11,7 +11,7 @@ export default {
 </script>
 <style>
 body{
-  background: url('https://www.esportsmag.it/wp-content/uploads/2020/12/esports.jpg');
+  background-color: #838282;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   margin: 0;
 }

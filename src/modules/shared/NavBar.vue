@@ -6,8 +6,7 @@
   
       <div class="navbar-menu">
         <div class="navbar-end">
-          <router-link to="/" class="navbar-item">Inicio</router-link>
-          <router-link to="/partidas" class="navbar-item">Partidas</router-link>
+          <router-link to="/" class="navbar-item">Partidas</router-link>
           <router-link to="/login" class="navbar-item">Iniciar sesión</router-link>
         </div>
       </div>
