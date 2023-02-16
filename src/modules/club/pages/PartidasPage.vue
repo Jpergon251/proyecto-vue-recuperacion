@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+      <div class="table-container">
       <label for="filtroJuego">Filtrar por juego:</label>
       <select id="filtroJuego" v-model="filtro">
         <option value="">Todos</option>
@@ -12,25 +13,28 @@
         <option value="duracion">Duración</option>
       </select>
       <button @click="crearPartida">Nueva Partida</button>
+      
       <table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Juego</th>
             <th>Fecha</th>
             <th>Duración</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="partida in partidasFiltradas" :key="partida.idPartida">
-            <td>{{ partida.idPartida }}</td>
-            <td><router-link :to="'/'+partida.juego.nombre.replace(/\s+/g, '')">{{ partida.juego.nombre }}</router-link></td>
+          <tr class='partida' v-for="partida in partidasFiltradas" :key="partida.idPartida">
+            
+            <td class="nombre-partida" >
+              <router-link :to="'/'+partida.juego.nombre.replace(/\s+/g, '')">{{ partida.juego.nombre }}</router-link><br>
+              <router-link :to="'/partidas/'+partida.idPartida"><p class="id-partida">{{ partida.idPartida }}</p></router-link></td>
             <td>{{ partida.fecha }}</td>
             <td>{{ formatearDuracion(partida) }}</td>
           </tr>
           
         </tbody>
       </table>
+    </div>
     </div>
   </template>
   
@@ -77,10 +81,9 @@
                 duracion += 1;
             }, 1000);
             }
-            const horas = Math.floor(duracion / 3600);
             const minutos = Math.floor((duracion % 3600) / 60);
             const segundos = duracion % 60;
-            return `${horas}:${minutos}:${segundos}`;
+            return `${minutos}:${segundos}`;
         },
         async crearPartida() {
             try {
@@ -119,28 +122,35 @@
 table {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   border-collapse: collapse;
+  border-radius: 5px;
   width: 100%;
   margin-top: 20px;
 }
 
 thead {
-  background-color: #f2f2f2;
+  border-radius: 5px;
+  background-color: #611534;
 }
-
 th,
 td {
+  
+  background: none;
   text-align: left;
   padding: 8px;
   border-bottom: 1px solid #ddd;
 }
-
+.id-partida{
+  opacity: 60%;
+}
 th {
-  background-color: #7f4caf;
   color: white;
 }
-
-tr:hover {
-  background-color: #f5f5f5;
+.partida{
+  color: #fff;
+  background-color: #3d2944;
+}
+.partida:hover {
+  background-color: #564b68;
 }
 
 select {
@@ -155,18 +165,35 @@ label {
   margin-right: 10px;
 }
 
-router-link{
-    color: #7f4caf;
+a{
+    text-decoration: none;
+    color: #ff232a;
+    font-weight: bold;
 }
+a:hover{
+  text-decoration: underline;
+}
+
+a>p{
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+a>p:hover{
+  text-decoration: underline;
+}
+
+.table-container{
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px 50px;
+  background-color: #3d2944;
+}
+
 
 /* Estilos específicos para la duración */
 td:nth-child(4) {
   text-align: left;
 }
-
-/* Ocultar ID */
-th:first-child,
-td:first-child {
-  display: none;
-}
-  </style>
+</style>

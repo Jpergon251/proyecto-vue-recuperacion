@@ -25,7 +25,6 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: bold;
     background: linear-gradient(135deg, #A31A1F, #71161B, #4A0F28, #320A40, #1D064C);
-    border-bottom: 1px solid #e5e5e5;
     display: flex;
     padding: 10px;
     align-items: center;

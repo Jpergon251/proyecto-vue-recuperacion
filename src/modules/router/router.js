@@ -28,6 +28,13 @@ const routes = [
     {
       path: '/partidas', component: ()=> import('@/modules/club/pages/PartidasPage.vue')
     },
+    {
+      path: '/partidas/:idPartida', component: ()=> import('@/modules/club/pages/OnePartidaPage.vue'),
+      props: (route) =>{
+        const idPartida = String(route.params.idPartida)
+        return {idPartida}
+      }
+    },
     { 
       path: '/404', component: () => import('@/modules/shared/NoPageFound.vue') 
     },
