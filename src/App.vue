@@ -4,14 +4,15 @@
 </template>
 
 <script>
+
 import NavBar from './modules/shared/NavBar.vue';
 export default {
-  components: { NavBar }
+  components: { NavBar },
 }
 </script>
 <style>
 body{
-  background-color: #838282;
+  background-color: #272727;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   margin: 0;
 }

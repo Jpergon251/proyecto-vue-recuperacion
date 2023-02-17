@@ -20,6 +20,7 @@
             <th>Juego</th>
             <th>Fecha</th>
             <th>Duración</th>
+            <th>Estado</th>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +31,9 @@
               <router-link :to="'/partidas/'+partida.idPartida"><p class="id-partida">{{ partida.idPartida }}</p></router-link></td>
             <td>{{ partida.fecha }}</td>
             <td>{{ formatearDuracion(partida) }}</td>
+            <td class="estado" v-bind:class="{ verde: partida.victoria, rojo: !partida.victoria }">
+              {{ partida.victoria ? 'Victoria' : 'Derrota' }}
+            </td>
           </tr>
           
         </tbody>
@@ -76,32 +80,25 @@
     methods: {
         formatearDuracion(partida) {
             let duracion = partida.duracion;
-            if (!partida.finalizada) {
-            setInterval(() => {
-                duracion += 1;
-            }, 1000);
-            }
             const minutos = Math.floor((duracion % 3600) / 60);
             const segundos = duracion % 60;
             return `${minutos}:${segundos}`;
         },
         async crearPartida() {
-            try {
-                const response = await fetch('http://localhost:3001/v1/api/partidas', {
-                method: 'POST',
-                });
-                if (!response.ok) {
-                throw new Error('Error al crear la partida.');
-                }
-                // Aquí se puede manejar la respuesta de la API en caso de ser necesario
-            } catch (error) {
-                console.error(error);
+          try {
+            const response = await axios.post('http://localhost:3001/v1/api/partidas');
+            
+            if (!response.data.success) {
+              throw new Error('Error al crear la partida.');
             }
-        },
-        
-        
+            const nuevaPartida = response.data.partida;
+            this.partidas.unshift(nuevaPartida);
+          } catch (error) {
+            console.error(error);
+          }
+        }
     },
-    async mounted() {
+    async created() {
       await axios.get('http://localhost:3001/v1/api/partidas')
         .then(response => {
           this.partidas = Object.values(response.data);
@@ -113,87 +110,107 @@
   };
   </script>
   
-  <style>
-  .container {
-  max-width: 800px;
-  margin: 0 auto;
+  <style scoped>
+.container {
+  color: #fff;
+  margin: auto;
+  width: 80%;
+  background-color: #666;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.table-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 table {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  border-collapse: collapse;
-  border-radius: 5px;
   width: 100%;
-  margin-top: 20px;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 1.1rem;
 }
 
-thead {
-  border-radius: 5px;
-  background-color: #611534;
-}
-th,
-td {
-  
-  background: none;
+th, td {
   text-align: left;
-  padding: 8px;
+  padding: 0.5rem 1rem;
   border-bottom: 1px solid #ddd;
 }
-.id-partida{
-  opacity: 60%;
-}
+
 th {
+  background-color: black;
   color: white;
 }
-.partida{
-  color: #fff;
-  background-color: #2a0b36;
-}
 .partida:hover {
-  background-color: #501568;
+  background-color: #838383;
+}
+
+#filtroJuego, #ordenarPor {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+button {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgb(27, 27, 27);
 }
 
 select {
-  font-size: 1em;
-  padding: 6px 10px;
-  margin: 5px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+}
+
+select:focus {
+  outline: none;
+  border-color: #585858;
 }
 
 label {
-  margin-right: 10px;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
 }
 
-a{
-    text-decoration: none;
-    color: #ff232a;
-    font-weight: bold;
+.nombre-partida {
+  font-weight: bold;
+}
+a {
+  color: #fff;
+  text-decoration: none;
 }
 a:hover{
   text-decoration: underline;
 }
 
-a>p{
-  text-decoration: none;
+.id-partida {
+  opacity: 50%;
+  font-size: 0.8rem;
   color: #fff;
+}
+
+.estado {
   font-weight: bold;
-}
-a>p:hover{
-  text-decoration: underline;
+  font-size: 16px;
 }
 
-.table-container{
-  color: #fff;
-  font-weight: bold;
-  border-radius: 5px;
-  padding: 10px 50px;
-  background-color: #2a0b36;
+.estado.verde {
+  color: #56f556;
 }
 
-
-/* Estilos específicos para la duración */
-td:nth-child(4) {
-  text-align: left;
+.estado.rojo {
+  color: #fa5a5a;
 }
+
 </style>

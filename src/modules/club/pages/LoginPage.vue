@@ -2,7 +2,7 @@
     <div class="login-page">
       <h1>Iniciar sesión</h1>
   
-      <form>
+      <form @submit.prevent="login">
         <div class="form-group">
           <label for="email">Correo electrónico:</label><br>
           <input type="email" id="email" v-model="email" required>
@@ -13,7 +13,7 @@
           <input type="password" id="password" v-model="password" required>
         </div>
   
-        <button type="submit" @click.prevent="login">Iniciar sesión</button>
+        <button type="submit">Iniciar sesión</button>
         <button class="account-btn" @click="goToRegister">¿No tienes cuenta?</button>
       </form>
       
@@ -21,6 +21,7 @@
   </template>
   
   <script>
+
   export default {
     // ... otros datos del componente ...
 
@@ -33,28 +34,30 @@
   </script>
   
   <style>
-  .login-page {
+   /* ... estilos específicos del componente ... */
+   .login-page {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    background-color: #6c6e74;
+    border-radius: 5px;
   }
-  
   h1 {
+    color: #fff;
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
   }
   
   form {
+    color: #fff;
     display: flex;
     flex-direction: column;
   }
   
   .form-group {
+    
     margin-bottom: 1rem;
   }
   
@@ -64,32 +67,34 @@
     margin-bottom: 0.5rem;
   }
   
-  input[type="email"],
-  input[type="password"] {
+  input {
+    background-color: #ddd;
     font-size: 1.2rem;
     padding: 0.5rem;
-    border: 1px solid #ddd;
+    border: none;
     border-radius: 4px;
   }
-  
+  input:focus{
+    background-color: #96a1ac;
+  }
   button[type="submit"] {
-    background-color: #2c3e50;
+    background-color: #42505c;
     color: #fff;
     font-size: 1.2rem;
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-bottom: 10px;
   }
   
   button[type="submit"]:hover {
-    background-color: #34495e;
+    background-color: #63798b;
   }
   .account-btn {
-    color:#34495e;
+    color:#fff;
     background: none;
     margin: 10 0;
-    padding: 5px;
     border: none;
     cursor: pointer;
   }

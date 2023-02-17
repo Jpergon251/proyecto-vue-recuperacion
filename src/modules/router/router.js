@@ -26,7 +26,7 @@ const routes = [
       path: '/', component: ()=> import('@/modules/club/pages/PartidasPage.vue')
     },
     {
-      path: '/:idPartida', component: ()=> import('@/modules/club/pages/OnePartidaPage.vue'),
+      path: '/partidas/:idPartida', component: ()=> import('@/modules/club/pages/OnePartidaPage.vue'),
       props: (route) =>{
         const idPartida = String(route.params.idPartida)
         return {idPartida}

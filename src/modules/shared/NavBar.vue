@@ -1,17 +1,17 @@
 <template>
-    <nav class="navbar">
-      <div class="navbar-brand">
-          <img class="logo" src="https://i.imgur.com/FY7HK2d.png" alt="Logo">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img class="logo" src="https://seeklogo.com/images/E/esport-logo-B80AF9936C-seeklogo.com.png" alt="Logo">
+    </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <router-link to="/" class="navbar-item">Partidas</router-link>
+        <router-link to="/login" class="navbar-item">Iniciar sesión</router-link>
       </div>
-  
-      <div class="navbar-menu">
-        <div class="navbar-end">
-          <router-link to="/" class="navbar-item">Partidas</router-link>
-          <router-link to="/login" class="navbar-item">Iniciar sesión</router-link>
-        </div>
-      </div>
-    </nav>
-  </template>
+    </div>
+  </nav>
+</template>
   
   <script>
   export default {
@@ -20,33 +20,26 @@
   
   <style>
   .navbar {
-    margin-bottom: 30px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-weight: bold;
-    background: linear-gradient(135deg, #A31A1F, #71161B, #4A0F28, #320A40, #1D064C);
-    display: flex;
-    padding: 10px;
-    align-items: center;
-    flex-direction: column;
+    width: 100%;
+    background: linear-gradient(135deg,#868686,#1a1a1a) ;
+    margin-bottom: 20px;
   }
-
-.navbar-item {
-  color: #fff;
-  margin: 0 10px;
-  font-size: 16px;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.navbar-item:hover {
-  color: #fff;
-  text-decoration: none;
-}
-.logo{
-  width: 100%;
-  margin: 20px 0;
-}
+  .logo {
+    margin: 0 50%;
+  }
+  .navbar-menu {
+    font-size: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 1rem;
+  }
+  .navbar-item {
+    color: #fff;
+    margin: 0 1rem;
+    text-decoration: none;
+  }
+  .navbar-item:hover {
+    color: #ccc;
+  }
 .router-link-active{
   text-decoration: underline;
 }

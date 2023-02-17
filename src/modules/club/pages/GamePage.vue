@@ -39,30 +39,36 @@ img{
   width: 1400px;
 }
 .container {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  width: 80%;
-  margin: 0 auto;
-}
-
-.portada {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto;
-  border-radius: 10px;
-}
-
-.titulo {
-  font-size: 2.5rem;
-  margin-top: 1.5rem;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 20px;
+  margin: auto;
+  background-color: #666;
   text-align: center;
 }
 
+.portada {
+  border-radius: 15px;
+  width: 100%;
+  max-width: 800px;
+  display: block;
+  margin: 0 auto;
+}
+
+.titulo {
+  font-weight: bold;
+  font-size: 3em;
+  color: white;
+  margin-top: 20px;
+}
+
 .descripcion {
-  font-size: 1.5rem;
-  margin-top: 1.5rem;
-  text-align: justify;
+  font-size: 1.2em;
+  color: white;
   line-height: 1.5;
+  margin-top: 20px;
+  max-width: 800px;
+  margin: 20px auto;
 }
 
 </style>
