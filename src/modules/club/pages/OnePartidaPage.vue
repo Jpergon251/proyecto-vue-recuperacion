@@ -12,7 +12,7 @@
     <div class="partida-info">
       
       <div class="partida-datos">
-        <p class="partida-nombre-juego">Juego: {{ juego.nombre }}</p>
+        <p class="partida-nombre-juego">Juego: <router-link :to="'/'+partida.juego.nombre.replace(/\s+/g, '')">{{ juego.nombre }}</router-link></p>
         <p class="partida-fecha">Fecha: {{ partida.fecha }}</p>
         <p class="partida-duracion">Duración: {{ formatearDuracion(partida) }}</p>
               
@@ -21,9 +21,7 @@
     <h2 class="partida-subtitulo">Jugadores</h2>
     <ul class="partida-lista-jugadores">
       <li v-for="jugador in this.partida.jugadoresPartida" class="partida-item-jugador">
-        <p class="partida-nombre-jugador">Nombre: {{ jugador.nombre }}</p>
-        <p class="partida-edad-jugador">Edad: {{ jugador.edad }}</p>
-        <p class="partida-horas-jugadas">Horas jugadas: {{ jugador.horasJugadas }}</p>
+        <p class="partida-nombre-jugador">{{ jugador.nombre }}</p>
       </li>
     </ul>
     
@@ -59,7 +57,7 @@ export default {
     },
     async getPartida() {
       try {
-        const response = await axios.get(`http://localhost:3001/v1/api/partidas/${this.idPartida}`)
+        const response = await axios.get(`https://api-hlc.herokuapp.com/v1/api/partidas/${this.idPartida}`)
         this.partida = response.data
         this.juego = response.data.juego
       } catch (error) {
@@ -179,15 +177,17 @@ h2.partida-id{
 }
 
 .partida-lista-jugadores {
+  display: flex;
+  justify-content: space-around;
   border-radius: 15px;
   padding: 10px;
   color: #fff;
   list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
 .partida-item-jugador {
+  text-align: center;
+  width: 100px;
   border-radius: 15px;
   padding: 10px;
   background-color: #35374b;
@@ -195,6 +195,16 @@ h2.partida-id{
   margin: 0 0 10px;
 }
 
+a {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #1a1a1a;
+  color: #fff;
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: underline;
+}
 .partida-edad-jugador,
 .partida-horas-jugadas {
   margin: 0 0 5px;

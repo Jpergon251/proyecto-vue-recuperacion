@@ -1,62 +1,29 @@
 <template>
-    <div class="not-found">
-      <h1>404 Página no encontrada</h1>
-      <p>Lo siento, la página que estás buscando no existe.</p>
-      <p>Por favor, regresa a la <router-link to="/">página de inicio</router-link>.</p>
-      <div class="emoji">😢</div>
-    </div>
+  <div class="not-found">
+    <h1>404 - Página no encontrada</h1>
+    <p>Lo sentimos, la página que estás buscando no existe.</p>
+  </div>
 </template>
-  
-<style>
-/* Estilos generales */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f7f7f7;
-  color: #333;
-}
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
+<script>
+export default {
+  name: "NotFound",
+};
+</script>
 
-h1 {
-  font-size: 3em;
-  margin-bottom: 20px;
-}
-
-p {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-}
-
-a {
-  color: #333;
-  text-decoration: underline;
-}
-
-/* Estilos específicos para la página de error 404 */
+<style scoped>
 .not-found {
-  padding-top: 50px;
+  text-align: center;
+  padding: 100px;
 }
 
-.not-found .emoji {
-  font-size: 5em;
-}
-
-.not-found h1 {
-  font-size: 2.5em;
-  margin-bottom: 10px;
-}
-
-.not-found p {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-}
-
-.not-found a {
-  font-weight: bold;
+.btn-home {
+  margin-top: 20px;
+  display: inline-block;
+  background-color: #0077ff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
 }
 </style>

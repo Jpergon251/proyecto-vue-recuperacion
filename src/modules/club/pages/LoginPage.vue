@@ -1,8 +1,8 @@
 <template>
     <div class="login-page">
       <h1>Iniciar sesión</h1>
-  
-      <form @submit.prevent="login">
+      <div v-if="error" class="alert alert-danger">{{error}}</div>
+      <form @submit.prevent="Login">
         <div class="form-group">
           <label for="email">Correo electrónico:</label><br>
           <input type="email" id="email" v-model="email" required>
@@ -21,20 +21,60 @@
   </template>
   
   <script>
-
+  import { ref } from 'vue'
+  import { useStore } from 'vuex'
+  import { useRouter } from 'vue-router'
   export default {
+    
     // ... otros datos del componente ...
+    setup() {
+      const email = ref('')
+      const password = ref('')
+      const error = ref(null)
 
-  methods: {
-    goToRegister() {
-      this.$router.push('/register');
+      const store = useStore()
+      const router = useRouter()
+
+      const Login = async () => {
+        try {
+          await store.dispatch('logIn', {
+            email: email.value,
+            password: password.value
+          })
+          router.push('/')
+        }
+        catch (err) {
+          if(err.message === "Firebase: Error (auth/wrong-password)."){
+            error.value = 'Contraseña incorrecra'
+          }else if(err.message === "Firebase: Error (auth/user-not-found)."){
+            error.value = 'Email no registrado'
+          }
+        }
+      }
+      return { Login, email, password, error }
+    },
+    methods: {
+      goToRegister() {
+        this.$router.push('/register');
+      }
     }
-  }
   }
   </script>
   
-  <style>
-   /* ... estilos específicos del componente ... */
+  <style scoped>
+   
+   .alert{
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ddd;
+  }
+
+  .alert-danger {
+    font-weight: bold;
+    color: #f94a4a;
+  }
+
    .login-page {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     max-width: 400px;

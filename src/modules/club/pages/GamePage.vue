@@ -22,7 +22,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(`http://localhost:3001/v1/api/juegos/${this.game}`)
+    axios.get(`https://api-hlc.herokuapp.com/v1/api/juegos/${this.game}`)
       .then(response => {
         this.juego = response.data;
       })

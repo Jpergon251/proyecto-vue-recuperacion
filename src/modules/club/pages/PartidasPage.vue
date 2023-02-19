@@ -1,19 +1,31 @@
 <template>
     <div class="container">
       <div class="table-container">
-      <label for="filtroJuego">Filtrar por juego:</label>
-      <select id="filtroJuego" v-model="filtro">
-        <option value="">Todos</option>
-        <option v-for="juego in juegos" :value="juego.nombre">{{ juego.nombre }}</option>
-      </select>
-  
-      <label for="ordenarPor">Ordenar por:</label>
-      <select id="ordenarPor" v-model="orden">
-        <option value="fecha">Fecha</option>
-        <option value="duracion">Duración</option>
-      </select>
+
+        <label for="filtroJuego">Filtrar por juego:</label>
+        <select id="filtroJuego" v-model="filtro">
+          <option value="">Todos</option>
+          <option v-for="juego in juegos" :value="juego.nombre">{{ juego.nombre }}</option>
+        </select>
+
+        <label for="filtroEstado">Filtrar por estado:</label>
+        <select id="filtroEstado" v-model="estado">
+          <option value="">Todos</option>
+          <option value="victorias">Victorias</option>
+          <option value="derrotas">Derrotas</option>
+        </select>
+
+        <label for="ordenarPor">Ordenar por:</label>
+        <select id="ordenarPor" v-model="orden">
+          <option value="fecha">Fecha</option>
+          <option value="duracion">Duración</option>
+        </select>
+      
       <button @click="crearPartida">Nueva Partida</button>
       
+        <h2>Partidas mostradas/totales: {{ partidasFiltradas.length }}/{{ partidas.length }} </h2>
+        
+
       <table>
         <thead>
           <tr>
@@ -34,29 +46,46 @@
             <td class="estado" v-bind:class="{ verde: partida.victoria, rojo: !partida.victoria }">
               {{ partida.victoria ? 'Victoria' : 'Derrota' }}
             </td>
+            <td><button @click="eliminarPartida(partida.idPartida)">Eliminar</button></td>
           </tr>
           
         </tbody>
       </table>
+      <button class="cargar-mas" v-if="cantidadAMostrar < partidas.length" @click="cargarMasPartidas">Cargar más</button>
+
     </div>
     </div>
   </template>
   
   <script>
+
   import axios from 'axios';
   
   export default {
+    
     data() {
       return {
+        cantidadAMostrar: 10,
+        partidaCreada: false,
         partidas: [],
         filtro: '',
         orden: 'fecha',
+        estado: '',
       };
     },
     computed: {
       partidasFiltradas() {
-        return this.partidas
+        return this.partidas.slice(0,this.cantidadAMostrar)
           .filter(partida => partida.juego.nombre.toLowerCase().includes(this.filtro.toLowerCase()))
+          .filter(partida => {
+            if (this.estado === 'victorias') {
+              return partida.victoria;
+            } else if (this.estado === 'derrotas') {
+              return !partida.victoria;
+            } else {
+              return true;
+            }
+          })
           .sort((a, b) => {
             if (this.orden === 'fecha') {
               return new Date(b.fecha) - new Date(a.fecha);
@@ -86,20 +115,38 @@
         },
         async crearPartida() {
           try {
-            const response = await axios.post('http://localhost:3001/v1/api/partidas');
-            
+            const response = await axios.post('https://api-hlc.herokuapp.com/v1/api/partidas');
             if (!response.data.success) {
               throw new Error('Error al crear la partida.');
             }
             const nuevaPartida = response.data.partida;
-            this.partidas.unshift(nuevaPartida);
+            this.partidas.push(nuevaPartida);
+            this.partidaCreada = true;
+            
           } catch (error) {
             console.error(error);
           }
+          window.location.reload();
+        },
+        async eliminarPartida(id) {
+          try {
+            const response = await axios.delete(`https://api-hlc.herokuapp.com/v1/api/partidas/${id}`);
+            if (!response.data.success) {
+              throw new Error('Error al eliminar la partida.');
+            }
+            this.partidas = this.partidas.filter(partida => partida.id !== id);
+            
+          } catch (error) {
+            console.error(error);
+          }
+          window.location.reload();
+        },
+        cargarMasPartidas(){
+          this.cantidadAMostrar += this.cantidadAMostrar
         }
     },
     async created() {
-      await axios.get('http://localhost:3001/v1/api/partidas')
+      await axios.get('https://api-hlc.herokuapp.com/v1/api/partidas')
         .then(response => {
           this.partidas = Object.values(response.data);
         })
@@ -211,6 +258,9 @@ a:hover{
 
 .estado.rojo {
   color: #fa5a5a;
+}
+.cargar-mas{
+  margin-top: 20px;
 }
 
 </style>
