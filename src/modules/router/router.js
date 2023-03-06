@@ -1,10 +1,14 @@
 import {createRouter,createWebHashHistory} from 'vue-router'
+import store from '../../store';
 
 const routes = [
     // otras rutas
     {
       path: '/equipo',
       component: () => import('@/modules/club/pages/TeamPage.vue'),
+      meta: {
+        requiresAuth: true
+      },
     },
     {
         path: '/register',
@@ -24,10 +28,16 @@ const routes = [
         const game = String(route.params.game)
         return {game}
       },
+      meta: {
+        requiresAuth: true
+      },
  
     },
     {
       path: '/', component: ()=> import('@/modules/club/pages/PartidasPage.vue'),
+      meta: {
+        requiresAuth: true
+      },
     
     },
     {
@@ -35,6 +45,9 @@ const routes = [
       props: (route) =>{
         const idPartida = String(route.params.idPartida)
         return {idPartida}
+      },
+      meta: {
+        requiresAuth: true
       },
       
     },
@@ -55,6 +68,19 @@ const router = createRouter({
 
     routes,
 })
+
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.state.user.loggedIn) {
+      next();
+    } else {
+      next({ name: "Login" });
+    }
+  } else {
+    next();
+  }
+});
 
 
 export default router
