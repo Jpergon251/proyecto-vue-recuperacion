@@ -58,7 +58,7 @@
   </template>
   
   <script>
-
+  import {v4 as uuidv4} from 'uuid';
   import axios from 'axios';
   
   export default {
@@ -66,11 +66,20 @@
     data() {
       return {
         cantidadAMostrar: 10,
-        partidaCreada: false,
+        nuevaPartida: {
+          idPartida: '',
+          juego: '',
+          fecha: '',
+          victoria: false,
+          duracion: 0,
+          jugadoresPartida: []
+        },
         partidas: [],
         filtro: '',
         orden: 'fecha',
         estado: '',
+        allJuegos: {},
+        allJugadores: {}
       };
     },
     computed: {
@@ -112,9 +121,33 @@
             const minutos = Math.floor((duracion % 3600) / 60);
             const segundos = duracion % 60;
             return `${minutos}:${segundos}`;
+        },   
+        async crearPartida() {
+        try {
+          const tiempoTranscurrido = Date.now();
+          const hoy = new Date(tiempoTranscurrido);
+
+
+          let variableAleatoria = null;
+          if (Math.random() < 0.5) {
+            variableAleatoria = true;
+          } else {
+            variableAleatoria = false;
+          }
+
+          this.nuevaPartida = {
+          idPartida: uuidv4(),
+          juego: this.allJuegos[Math.floor(Math.random() * this.allJuegos.length)],
+          fecha: hoy.toLocaleDateString(),
+          victoria: variableAleatoria,
+          duracion: Math.floor(Math.random() * (3600 - 480 + 1)) + 480,
+          jugadoresPartida: []
+        }
+          
+        } catch (error) {
+            console.error(error);
+        }
         },
-        
-        
         cargarMasPartidas(){
           this.cantidadAMostrar += this.cantidadAMostrar
         }
@@ -127,6 +160,24 @@
         .catch(error => {
           console.log(error);
         });
+
+      await axios.get('https://api-hlc.herokuapp.com/v1/api/juegos')
+          .then(response => {
+            const juegos = response.data
+            this.allJuegos = juegos
+          })
+          .catch(error => {
+            console.log(error)
+          })
+
+      await axios.get('https://api-hlc.herokuapp.com/v1/api/jugadores')
+      .then(response => {
+        this.allJugadores = response.data;
+        console.log('Datos de jugadores cargados:', this.allJugadores);
+      })
+      .catch(error => {
+        console.error('Error al cargar los datos de jugadores:', error);
+      });
     },
   };
   </script>

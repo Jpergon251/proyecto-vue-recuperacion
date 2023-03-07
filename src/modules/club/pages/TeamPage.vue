@@ -29,6 +29,10 @@
           <label for="edad">Edad:</label>
           <input type="number" id="edad" v-model="nuevoJugador.edad" required>
         </div>
+        <div class="form-group">
+          <label for="horasJugadas">Horas jugadas:</label>
+          <input type="number" id="horasJugadas" v-model="nuevoJugador.horasJugadas" required>
+        </div>
         <button type="submit">Añadir jugador</button>
       </form>
     </div>
@@ -73,13 +77,10 @@
         } catch (error) {
             console.error(error);
         }
-        window.location.reload();
         },
         async deleteJugador(jugador) {
-            const url = `https://api-hlc.herokuapp.com/v1/api/jugadores/${jugador}`;
             try {
-                await axios.delete(url);
-                window.location.reload();
+                await axios.delete(`https://api-hlc.herokuapp.com/v1/api/jugadores/${jugador}`);
             } catch (error) {
                 console.error(error);
             }
