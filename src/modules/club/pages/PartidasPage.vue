@@ -21,7 +21,7 @@
           <option value="duracion">Duración</option>
         </select>
       
-      <button @click="">Nueva Partida</button>
+      <button @click="crearPartida()">Nueva Partida</button>
       
         <h2>Partidas mostradas/totales: {{ partidasFiltradas.length }}/{{ partidas.length }} </h2>
         
@@ -46,7 +46,7 @@
             <td class="estado" v-bind:class="{ verde: partida.victoria, rojo: !partida.victoria }">
               {{ partida.victoria ? 'Victoria' : 'Derrota' }}
             </td>
-            <td><button @click="">Eliminar</button></td>
+            <td><button @click="eliminarPartida(partida.id)">Eliminar</button></td>
           </tr>
           
         </tbody>
@@ -127,33 +127,63 @@
           const tiempoTranscurrido = Date.now();
           const hoy = new Date(tiempoTranscurrido);
 
-
           let variableAleatoria = null;
           if (Math.random() < 0.5) {
             variableAleatoria = true;
           } else {
             variableAleatoria = false;
           }
+          const arrayJugadores = Object.values(this.allJugadores);
 
+          const shuffledJugadores = arrayJugadores.sort(() => 0.5 - Math.random());
+
+          
+          // Convertir los objetos JSON en un array de objetos utilizando Object.values
+          const arrayJuegos = Object.values(this.allJuegos);
+
+          // Generar un número aleatorio entre 0 y la longitud del array
+          const randomIndex = Math.floor(Math.random() * (arrayJuegos.length));
+
+          // Seleccionar el objeto aleatorio del array utilizando el índice generado
+          const randomJuego = arrayJuegos[randomIndex];
+
+          // Convertir el objeto JavaScript en una cadena JSON utilizando JSON.stringify
+          const jsonJuego = JSON.stringify(randomJuego);
           this.nuevaPartida = {
           idPartida: uuidv4(),
-          juego: this.allJuegos[Math.floor(Math.random() * this.allJuegos.length)],
+          juego: randomJuego,
           fecha: hoy.toLocaleDateString(),
           victoria: variableAleatoria,
           duracion: Math.floor(Math.random() * (3600 - 480 + 1)) + 480,
-          jugadoresPartida: []
-        }
+          jugadoresPartida: shuffledJugadores.slice(0, 5)
+          }
           
+          this.partidas.push(this.nuevaPartida)
+          await axios.post('https://api-hlc.herokuapp.com/v1/api/partidas',this.nuevaPartida)
+
         } catch (error) {
             console.error(error);
+        }
+        },
+        async eliminarPartida(idPartida){
+        try {
+          
+          for (let i = 0; i < this.partidas.length; i++) {
+          if (this.partidas[i].id === idPartida) {
+            this.partidas.splice(i, 1);
+            break;
+          }
+        }
+        } catch(error) {
+          console.error(error)
         }
         },
         cargarMasPartidas(){
           this.cantidadAMostrar += this.cantidadAMostrar
         }
     },
-    async created() {
-      await axios.get('https://api-hlc.herokuapp.com/v1/api/partidas')
+    created() {
+      axios.get('https://api-hlc.herokuapp.com/v1/api/partidas')
         .then(response => {
           this.partidas = Object.values(response.data);
         })
@@ -161,7 +191,7 @@
           console.log(error);
         });
 
-      await axios.get('https://api-hlc.herokuapp.com/v1/api/juegos')
+      axios.get('https://api-hlc.herokuapp.com/v1/api/juegos')
           .then(response => {
             const juegos = response.data
             this.allJuegos = juegos
@@ -170,10 +200,9 @@
             console.log(error)
           })
 
-      await axios.get('https://api-hlc.herokuapp.com/v1/api/jugadores')
+      axios.get('https://api-hlc.herokuapp.com/v1/api/jugadores')
       .then(response => {
         this.allJugadores = response.data;
-        console.log('Datos de jugadores cargados:', this.allJugadores);
       })
       .catch(error => {
         console.error('Error al cargar los datos de jugadores:', error);
