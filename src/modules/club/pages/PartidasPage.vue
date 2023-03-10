@@ -46,7 +46,7 @@
             <td class="estado" v-bind:class="{ verde: partida.victoria, rojo: !partida.victoria }">
               {{ partida.victoria ? 'Victoria' : 'Derrota' }}
             </td>
-            <td><button @click="eliminarPartida(partida.id)">Eliminar</button></td>
+            <td><button @click="eliminarPartida(partida.idPartida)">Eliminar</button></td>
           </tr>
           
         </tbody>
@@ -169,11 +169,12 @@
         try {
           
           for (let i = 0; i < this.partidas.length; i++) {
-          if (this.partidas[i].id === idPartida) {
-            this.partidas.splice(i, 1);
-            break;
+            if (this.partidas[i].idPartida === idPartida) {
+              this.partidas.splice(i, 1);
+              await axios.delete(`https://api-hlc.herokuapp.com/v1/api/partidas/${idPartida}`);
+              break;
+            }
           }
-        }
         } catch(error) {
           console.error(error)
         }

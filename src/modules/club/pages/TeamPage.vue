@@ -1,6 +1,5 @@
 <template>
 
-
     <div class="jugador-list">
       <h1 class="title">Jugadores</h1>
   
@@ -14,6 +13,7 @@
             Horas jugadas: {{ jugador.horasJugadas }}
           </p>
           <button class="eliminar-btn" @click="deleteJugador(jugador.nombre)">Eliminar</button>
+
         </div>
       </div>
     </div>
@@ -50,37 +50,39 @@
             horasJugadas: null,
         },
         jugadores: [],
+    
       };
     },
     mounted() {
-
-
       axios
         .get('https://api-hlc.herokuapp.com/v1/api/jugadores')
         .then(response => {
-          this.jugadores = response.data;
+          this.jugadores = Object.values(response.data);
         })
         .catch(error => {
           console.log(error);
         });
-    },
+      },
+        
     methods: {
         async agregarJugador() {
         try {
-            const response = await axios.post('https://api-hlc.herokuapp.com/v1/api/jugadores', this.nuevoJugador);
-            if (!response.data.success) {
-            throw new Error('Error al agregar el jugador.');
-            }
-            const jugadorAgregado = response.data.jugador;
-            this.jugadores.push(jugadorAgregado);
-            this.nuevoJugador = { nombre: '', edad: null, horasJugadas: null };
+            await axios.post('https://api-hlc.herokuapp.com/v1/api/jugadores', this.nuevoJugador);
+            this.jugadores.push(this.nuevoJugador);
         } catch (error) {
             console.error(error);
         }
         },
-        async deleteJugador(jugador) {
+        async deleteJugador(nombre) {
             try {
-                await axios.delete(`https://api-hlc.herokuapp.com/v1/api/jugadores/${jugador}`);
+                
+                for (let i = 0; i < this.jugadores.length; i++) {
+                  if (this.jugadores[i].nombre === nombre) {
+                    this.jugadores.splice(i, 1);
+                    await axios.delete(`https://api-hlc.herokuapp.com/v1/api/jugadores/${nombre}`);
+                    break;
+                  }
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -114,8 +116,6 @@
     align-items: center;
     padding: 20px;
 }
-
-
 
 .title {
     color: #fff;
